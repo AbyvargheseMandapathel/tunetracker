@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ song.title }} - {{ song.artist.name }}</title>
+</head>
+<body>
+    <h1>{{ song.title }} by {{ song.artist.name }}</h1>
+    <p>Release Year: {{ song.release_year }}</p>
+    <p>Genre: {{ song.genre }}</p>
+    <p>Language: {{ song.language }}</p>
+    {% if song.cover_image %}
+        <img src="{{ song.cover_image.url }}" alt="{{ song.title }} Cover">
+    {% endif %}
+    <a href="{% url 'song_list' %}">Back to Song List</a>
+</body>
+</html>

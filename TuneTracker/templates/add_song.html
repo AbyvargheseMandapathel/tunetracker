@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Artist - Tune Tracker{% endblock %}
+
+{% block content %}
+<div class="row p-4">
+    <div class="col-xl-6 mx-auto">
+        <div class="card bg-black" style="height: 100% !important;">
+            <div class="cover-header px-4 py-3">
+                <h5 class="mb-0 text-light">Create  Song</h5>
+            </div>
+            <div class="cover-body p-4">
+                <form class="row g-3 needs-validation custom-form" novalidate method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p|safe }}
+                    <div class="col-md-12">
+                        <div class="d-md-flex d-grid align-items-center gap-3">
+                            <button type="submit" class="btn btn-success px-4">Submit</button>
+                            <button type="reset" class="btn btn-light px-4">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -151,9 +151,9 @@
                     <i class="material-symbols-outlined" style="margin-right: 8px;">artist</i> Artist</a></li>
                 <li class="{% if request.path == '/songs/' %}active{% endif %}"><a href="{% url 'songs' %}" class="text-decoration-none px-3 py-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="margin-right: 8px;">lyrics</i> Songs</a></li>
-                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                <li class="{% if request.path == '/add_song/' %}active{% endif %}"><a href="{% url 'add_song' %}" class="text-decoration-none px-3 py-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="margin-right: 8px;">add</i> Add songs </a></li>
-                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                    <li class="{% if request.path == '/add_artist/' %}active{% endif %}"><a href="{% url 'add_artist' %}" class="text-decoration-none px-3 py-2 d-flex align-items-center">
                         <i class="material-symbols-outlined" style="margin-right: 8px;">person_add</i> Add Artist </a></li>    
                 </ul>
             <hr class="h-color mx-2">

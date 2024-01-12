@@ -17,7 +17,7 @@ class Artist(models.Model):
     
 class Song(models.Model):
     title = models.CharField(max_length=255)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE , related_name='songs')
     release_year = models.PositiveIntegerField()
     genre = models.CharField(max_length=100)
     language = models.CharField(max_length=50)

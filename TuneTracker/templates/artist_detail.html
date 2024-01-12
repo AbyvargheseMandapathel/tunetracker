@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 class="my-4">{{ artist.name }}</h1>
+        {% if artist.profile_picture %}
+          <img class="img-fluid" src="{{ artist.profile_picture.url }}" alt="{{ artist.name }}">
+        {% endif %}
+        <p class="my-4">{{ artist.bio }}</p>
+      </div>
+    </div>
+  </div>

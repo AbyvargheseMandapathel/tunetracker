@@ -131,3 +131,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "TuneTracker/static",
 ]
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"

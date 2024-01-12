@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Artists - Tune Tracker{% endblock %}
+
+{% block content %}
+<!-- Artists Component -->
+<div class="container mt-5">
+    <p class="h3 text-light d-flex justify-content-center">Artists</p>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-6 g-4 mt-2">
+        {% for artist_instance in artists_list %}
+            <!-- Artist Card -->
+            <a href="{% url 'artist_detail' artist_instance.id %}" style="text-decoration: none; color: inherit;" class="col mb-4 d-flex justify-content-center">
+                <div class="card bg-secondarycolor border-3 rounded-3 text-center" style="width: 10rem;">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 70px;">
+                        {% if artist_instance.profile_picture %}
+                            <img src="{{ artist_instance.profile_picture.url }}" alt="{{ artist_instance.name }}" class="rounded-circle p-2" style="width: 70px; height: 70px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://example.com/default-image.jpg" alt="{{ artist_instance.name }}" class="rounded-circle p-2" style="width: 70px; height: 70px; object-fit: cover;">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-white">{{ artist_instance.name }}</h5>
+                        <p class="text-white mb-2 p-2">{{ artist_instance.songs.count }} Songs</p>
+                    </div>
+                </div>
+            </a>
+            <!-- Artist Card End -->
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

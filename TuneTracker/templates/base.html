@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Tune Tracker{% endblock %}</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" 
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" 
+    />
+    <link rel="stylesheet" 
+    href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>
+    .body-bg-color {
+        background-color: #686868;
+    }
+    .bg-secondarycolor {
+        background-color: #191919;
+    }
+    .card-body {
+        height: 150px;
+    }
+    .aspect-ratio-container {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; 
+    }
+
+    .aspect-ratio {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .play-button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background-color: #1ED760;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .card:hover .play-button-container {
+        opacity: 1;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 150vmin;
+        height: 80vmin;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+    
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        margin: auto;
+        box-sizing: border-box;
+    }
+    
+    .modal-content iframe {
+        margin: 0;
+        padding: 0;
+    }
+
+.modal-content span {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 40px;
+    color: #fff;
+}
+
+    .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        color: green !important;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .card:hover .play-button {
+        opacity: 1;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 30px; 
+        color: #fff;
+    }
+</style>
+</head>
+<body>
+    <div class="main-container d-flex">
+        <div class="sidebar" id="side_nav">
+            <div class="header-box px-2 pt-3 pb-4 d-flex justify-content-between">
+                <h1 class="fs-4"><span class="bg-white text-dark rounded shadow px-2 me-2">TL</span> <span
+                        class="text-white">Tune Tracker</span></h1>
+                <button class="btn d-md-none d-block close-btn px-1 py-0 text-white"><i
+                        class="fal fa-stream"></i></button>
+            </div>
+    
+            <ul class="list-unstyled px-2">
+                <li class="{% if request.path == '/' %}active{% endif %}"><a href="{% url 'dashboard' %}" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                    <i class="material-symbols-outlined" style="margin-right: 8px;">home</i> Home</a></li>
+                    <li class="{% if request.path == '/artists/' %}active{% endif %}"><a href="{% url 'artists' %}" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                    <i class="material-symbols-outlined" style="margin-right: 8px;">artist</i> Artist</a></li>
+                <li class="{% if request.path == '/songs/' %}active{% endif %}"><a href="{% url 'songs' %}" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                    <i class="material-symbols-outlined" style="margin-right: 8px;">lyrics</i> Songs</a></li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                    <i class="material-symbols-outlined" style="margin-right: 8px;">add</i> Add songs </a></li>
+                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                        <i class="material-symbols-outlined" style="margin-right: 8px;">person_add</i> Add Artist </a></li>    
+                </ul>
+            <hr class="h-color mx-2">
+        </div>
+   
+        <div class="content body-bg-color">
+            <nav class="navbar navbar-expand-md navbar-light body-bg-color ">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between d-md-none d-block">
+                        <button class="btn px-1 py-0 open-btn me-2"><i class="fal fa-stream"></i></button>
+                        <a class="navbar-brand fs-4" href="#"><span class="bg-dark rounded px-2 py-0 text-white">TT</span></a>
+                    </div>
+            
+                    <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fal fa-bars"></i>
+                    </button>
+            
+                    <div class="d-none d-md-flex align-items-center ms-auto">
+                        <img src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" alt="Profile Avatar" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                    </div>
+                </div>
+            </nav>
+            {% block content %}{% endblock %}
+            <script src="{% static 'js/script.js' %}"></script>  
+    <!-- MDB -->
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</body>
+</html>

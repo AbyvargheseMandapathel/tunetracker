@@ -29,6 +29,112 @@ href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     .bg-secondarycolor {
         background-color: #191919;
     }
+    .card-body {
+        height: 150px;
+    }
+    .aspect-ratio-container {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; 
+    }
+
+    .aspect-ratio {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .play-button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background-color: #1ED760;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .card:hover .play-button-container {
+        opacity: 1;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80vmin;
+        height: 80vmin;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+    
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        margin: auto;
+        box-sizing: border-box;
+    }
+    
+    .modal-content iframe {
+        margin: 0;
+        padding: 0;
+    }
+    
+    
+
+
+.modal-content span {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000;
+}
+
+    .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        color: green !important;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .card:hover .play-button {
+        opacity: 1;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 30px; 
+        color: #fff;
+    }
 </style>
 </head>
 <body>
@@ -42,7 +148,7 @@ href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
             </div>
     
             <ul class="list-unstyled px-2">
-                <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
+                <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="margin-right: 8px;">home</i> Home</a></li>
                 <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-flex align-items-center">
                     <i class="material-symbols-outlined" style="margin-right: 8px;">artist</i> Artist</a></li>
@@ -72,19 +178,97 @@ href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
                 </div>
             </nav>
 
-            <div class="dashboard-content px-3 pt-4 ">
-                <p class="h3 text-light">Songs</p>
-                <div class="card bg-secondarycolor border-3 rounded-3" style="width: 15rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" class="card-img-top p-3 img-fluid" alt="Sunset Over the Sea" style="object-fit: cover;">
-                    <div class="card-body">
-                        <p class="h4 text-white">Anuraghathin Velayil</p>
-                        <p class="h6 text-white">Vineeth Sreenivasan</p>
-                    </div>
+            <div class="dashboard-content px-3 pt-4 d-flex justify-content-end">
+                <div class="row">
+                    <!-- Song Cards -->
+<div class="col-md-8">
+    <p class="h3 text-light">Recent Songs</p>
+    <div class="row">
+        {% for song in songs %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4 position-relative">
+            <div class="card bg-secondarycolor border-3 rounded-3" style="width: 15rem;">
+                <div class="aspect-ratio-container">
+                    {% if song.cover_image %}
+                    <img src="{{ song.cover_image.url }}" class="card-img-top img-fluid aspect-ratio" alt="{{ song.title }}" style="object-fit: cover;">
+                    {% else %}
+                    <img src="https://img.freepik.com/free-photo/volumetric-musical-background-with-treble-clef-notes-generative-ai_169016-29576.jpg?w=1380&t=st=1705047605~exp=1705048205~hmac=1ac3a10656ccf07b8e08af9e9ddbf0f79980614c7b8b6ee3afbe198465550a3d" class="card-img-top img-fluid aspect-ratio" alt="{{ song.title }}" style="object-fit: cover;">
+                    {% endif %}
+                    <div class="play-button-container" onclick="openModal('{{ song.music_video_url }}')">&#9654;</div>
+                </div>
+                <div class="card-body">
+                    <p class="h4 text-white">{{ song.title }}</p>
+                    <p class="h6 text-white">{{ song.artist.name }}</p>
                 </div>
             </div>
-            
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Song Cards End -->
+                    <!-- Song Cards End -->
+
+                    <!-- Artists Component -->
+<div class="col-md-4">
+    <div class="row">
+        <p class="h3 text-light d-flex justify-content-center">Artists</p>
+        {% for artist_instance in artist %}
+        <!-- Artist Card -->
+        <div class="col-12 mb-4 d-flex justify-content-center">
+            <div class="card bg-secondarycolor border-3 rounded-3 text-center" style="width: 10rem; height: 8rem;">
+                <div class="d-flex align-items-center justify-content-center" style="height: 70px;">
+                    {% if artist_instance.profile_picture %}
+                        <img src="{{ artist_instance.profile_picture.url }}" alt="{{ artist_instance.name }}" class="rounded-circle p-2" style="width: 70px; height: 70px; object-fit: cover;">
+                    {% else %}
+                        <!-- If no profile picture, you can display a default image or leave it blank -->
+                        <img src="https://example.com/default-image.jpg" alt="{{ artist_instance.name }}" class="rounded-circle p-2" style="width: 70px; height: 70px; object-fit: cover;">
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <p class="h5 text-white">{{ artist_instance.name }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- Artist Card End -->
+        {% endfor %}
+    </div>
+</div>
+<!-- Artists Component End -->
+
+
+
+<!-- Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <span onclick="closeModal()" class="close-button" title="Close">&times;</span>
+            <iframe style="border-radius: 12px" id="spotifyIframe" width="100%" height="100%" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </div>
+
+<script>
+    var globalEmbedUrl;  
+
+    function openModal(trackUri) {
+        globalEmbedUrl = trackUri;  
+        document.getElementById('spotifyIframe').src = globalEmbedUrl;
+        document.getElementById('myModal').style.display = 'block';
+
+        document.addEventListener('keydown', closeModalOnEscape);
+    }
+
+    function closeModal() {
+        document.getElementById('spotifyIframe').src = '';
+        document.getElementById('myModal').style.display = 'none';
+
+        document.removeEventListener('keydown', closeModalOnEscape);
+    }
+
+    function closeModalOnEscape(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    }
+</script>
+
 
 <script src="{% static 'js/script.js' %}"></script>  
     <!-- MDB -->

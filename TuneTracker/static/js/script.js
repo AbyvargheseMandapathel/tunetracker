@@ -20,3 +20,5 @@ document.querySelector('.open-btn').addEventListener('click', function () {
 document.querySelector('.close-btn').addEventListener('click', function () {
     toggleClass(document.querySelector('.sidebar'), 'active');
 });
+
+

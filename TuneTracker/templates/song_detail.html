@@ -1,16 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ song.title }} - {{ song.artist.name }}</title>
-</head>
-<body>
-    <h1>{{ song.title }} by {{ song.artist.name }}</h1>
-    <p>Release Year: {{ song.release_year }}</p>
-    <p>Genre: {{ song.genre }}</p>
-    <p>Language: {{ song.language }}</p>
-    {% if song.cover_image %}
-        <img src="{{ song.cover_image.url }}" alt="{{ song.title }} Cover">
-    {% endif %}
-    <a href="{% url 'song_list' %}">Back to Song List</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}{{ song.title }} - Tune Tracker{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-black">
+                <div class="card-body text-center text-light width-none">
+                    <!-- Song details -->
+                    <h1 class="my-2">{{ song.title }} by {{ song.artist.name }}</h1>
+                    <div class="row text-left">
+                        <div class="col-md-6">
+                            <p>Release Year: {{ song.release_year }}</p>
+                            <p>Language: {{ song.language }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Genre: {{ song.genre }}</p>
+                        </div>
+                        <!-- Video container -->
+                        <div class="video-container mt-4">
+                            <iframe width="100%" height="100%" src="{{ song.music_video_url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>     
+                    </div>          
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; 
+        margin-top: 20px;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+{% endblock %}

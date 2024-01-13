@@ -11,9 +11,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             {% if artist.profile_picture %}
-                                <img class="img-fluid rounded-circle" src="{{ artist.profile_picture.url }}" alt="{{ artist.name }}">
+                                <img class="img-fluid rounded-circle" src="{{ artist.profile_picture.url }}" alt="{{ artist.name }}" style="width: 200px; height: 200px; object-fit: cover;">
                             {% else %}
-                                <img class="img-fluid rounded-circle" src="https://example.com/default-image.jpg" alt="{{ artist.name }}">
+                                <img class="img-fluid rounded-circle" src="https://example.com/default-image.jpg" alt="{{ artist.name }}" style="width: 100px; height: 100px; object-fit: cover;">
                             {% endif %}
                         </div>
                         <div class="col-md-9">
@@ -26,121 +26,82 @@
 
             <div class="row mt-3">
                 <div class="col-md-12 d-flex justify-content-center">
-                  <div class="row mt-3">
-                    <div class="col-md-12 d-flex justify-content-center">
-                      <!-- Facebook -->
-                          <a
-                          data-mdb-ripple-init
-                          class="btn text-white btn-floating m-1"
-                          style="background-color: #3b5998;"
-                          href="{{ artist.facebook_url }}"
-                          role="button"
-                          target="_blank"
-                          ><i class="fab fa-facebook"></i
-                        ></a>
-                        <!-- Instagram -->
-                        <a
-                        data-mdb-ripple-init
-                        class="btn text-white btn-floating m-1"
-                        style="background-color: #ac2bac;"
-                        href="{{ artist.instagram_link }}"
-                        role="button"
-                        target="_blank"
-                        ><i class="fab fa-instagram"></i
-                      ></a>
-                      <!-- Spotify -->
-                      <a
-                      data-mdb-ripple-init
-                      class="btn text-white btn-floating m-1"
-                      style="background-color: #14A44D;"
-                      href="{{ artist.spotify_url }}"
-                      role="button"
-                      target="_blank"
-                      ><i class="fab fa-spotify"></i
-                    ></a>
-                    <!-- YouTube -->
-                    <a
-                    data-mdb-ripple-init
-                    class="btn text-white btn-floating m-1"
-                    style="background-color: #dd4b39;"
-                    href="{{ artist.youtube_link }}"
-                    role="button"
-                    target="_blank"
-                    ><i class="fab fa-youtube"></i
-                  ></a>
+                    <div class="row mt-3">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <!-- Social media icons here -->
+                            <a data-mdb-ripple-init class="btn btn-floating m-1" style="background-color: #3b5998;" href="{{ artist.facebook_url }}" role="button" target="_blank"><i class="fab fa-facebook text-white"></i></a>
+                            <a data-mdb-ripple-init class="btn btn-floating m-1" style="background-color: #ac2bac;" href="{{ artist.instagram_link }}" role="button" target="_blank"><i class="fab fa-instagram text-white"></i></a>
+                            <a data-mdb-ripple-init class="btn btn-floating m-1" style="background-color: #14A44D;" href="{{ artist.spotify_url }}" role="button" target="_blank"><i class="fab fa-spotify text-white"></i></a>
+                            <a data-mdb-ripple-init class="btn btn-floating m-1" style="background-color: #dd4b39;" href="{{ artist.youtube_link }}" role="button" target="_blank"><i class="fab fa-youtube text-white"></i></a>
+                        </div>
                     </div>
-                </div>                </div>
+                </div>
             </div>
-
         </div>
     </div>
 </div>
 
-<div class="dashboard-content px-3 pt-4 d-flex justify-content-end">
-    <div class="row">
-        <!-- Song Cards -->
-        <div class="col-md-12">
-            <p class="h3 text-light">Songs</p>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-                {% for song in songs %}
-                <div class="col mb-4 position-relative">
-                  <div class="card bg-secondarycolor border-3 rounded-3" style="width: 100%;">
-                      <div class="aspect-ratio-container">
-                          {% if song.cover_image %}
-                              <img src="{{ song.cover_image.url }}" class="card-img-top img-fluid aspect-ratio" alt="{{ song.title }}" style="object-fit: cover;">
-                          {% else %}
-                              <img src="https://img.freepik.com/free-photo/volumetric-musical-background-with-treble-clef-notes-generative-ai_169016-29576.jpg?w=1380&t=st=1705047605~exp=1705048205~hmac=1ac3a10656ccf07b8e08af9e9ddbf0f79980614c7b8b6ee3afbe198465550a3d" class="card-img-top img-fluid aspect-ratio" alt="{{ song.title }}" style="object-fit: cover;">
-                          {% endif %}
-                          <div class="play-button-container" onclick="openModal('{{ song.music_video_url }}')">&#9654;</div>
-                      </div>
-                      <div class="card-body">
-                          <a href="{% url 'song_detail' song_id=song.id %}" class="text-decoration-none text-reset">
-                              <p class="h4 text-white">{{ song.title }}</p>
-                          </a>
-                          <a href="{% url 'artist_detail' artist_id=song.artist.id %}" class="text-decoration-none text-reset">
-                              <p class="h6 text-white">{{ song.artist.name }}</p>
-                          </a>
-                      </div>
-                  </div>
-              </div>
-                {% endfor %}
+<!-- Song Cards -->
+<div class="dashboard-content px-3 pt-4">
+    <p class="h3 text-light">Songs</p>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+        {% for song in songs %}
+        <div class="col mb-4">
+            <div class="card bg-secondarycolor border-3 rounded-3">
+                <div class="aspect-ratio-container">
+                    {% if song.cover_image %}
+                        <img src="{{ song.cover_image.url }}" class="card-img-top img-fluid aspect-ratio" alt="{{ song.title }}" style="object-fit: cover;">
+                    {% else %}
+                        <img src="https://img.freepik.com/free-photo/volumetric-musical-background-with-treble-clef-notes-generative-ai_169016-29576.jpg?w=1380&t=st=1705047605~exp=1705048205~hmac=1ac3a10656ccf07b8e08af9e9ddbf0f79980614c7b8b6ee3afbe198465550a3d" class="card-img-top img-fluid aspect-ratio" alt="{{ song.title }}" style="object-fit: cover;">
+                    {% endif %}
+                    <div class="play-button-container" onclick="openModal('{{ song.music_video_url }}')">&#9654;</div>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'song_detail' song_id=song.id %}" class="text-decoration-none text-reset">
+                        <p class="h4 text-white">{{ song.title|truncatechars:40 }}</p>
+                    </a>
+                    <a href="{% url 'artist_detail' artist_id=song.artist.id %}" class="text-decoration-none text-reset">
+                        <p class="h6 text-white">{{ song.artist.name }}</p>
+                    </a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 
 <!-- Modal -->
 <div class="modal" id="myModal" tabindex="-1">
-  <div class="modal-content">
-      <span onclick="closeModal()" class="close-button" title="Close">&times;</span> 
-      <iframe style="border-radius: 12px" id="spotifyIframe"  width="100%" height="100%" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-  </div>
+    <div class="modal-content">
+        <span onclick="closeModal()" class="close-button" title="Close">&times;</span> 
+        <iframe style="border-radius: 12px" id="spotifyIframe" width="100%" height="100%" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
 </div>
 
 <script>
-  var globalEmbedUrl;  
+var globalEmbedUrl;  
 
-  function openModal(trackUri) {
-      globalEmbedUrl = trackUri;  
-      document.getElementById('spotifyIframe').src = globalEmbedUrl;
-      document.getElementById('myModal').style.display = 'block';
+function openModal(trackUri) {
+    globalEmbedUrl = trackUri;  
+    document.getElementById('spotifyIframe').src = globalEmbedUrl;
+    document.getElementById('myModal').style.display = 'block';
 
-      document.getElementById('myModal').focus();
+    document.getElementById('myModal').focus();
 
-      document.addEventListener('keydown', closeModalOnEscape);
-  }
+    document.addEventListener('keydown', closeModalOnEscape);
+}
 
-  function closeModal() {
-      document.getElementById('spotifyIframe').src = '';
-      document.getElementById('myModal').style.display = 'none';
+function closeModal() {
+    document.getElementById('spotifyIframe').src = '';
+    document.getElementById('myModal').style.display = 'none';
 
-      document.removeEventListener('keydown', closeModalOnEscape);
-  }
+    document.removeEventListener('keydown', closeModalOnEscape);
+}
 
-  function closeModalOnEscape(event) {
-      if (event.key === 'Escape' || event.key === 'Esc') {
-          closeModal();
-      }
-  }
+function closeModalOnEscape(event) {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+        closeModal();
+    }
+}
 </script>
 {% endblock %}

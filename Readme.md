@@ -42,21 +42,35 @@ python manage.py runserver
 ```
 # Screenshots
 1. Dashboard
-![Dashboard](screenshots\image.png)
+![Dashboard](screenshots/dashboard.png)
 
-2.Artist
-
+2.Artists
+![Artist](screenshots/Artists.png)
 
 3. Songs
-
+![Songs](screenshots/Songs.png)
 
 4. Video Player
+![Video Player](screenshots/vd.png)
 
 5. Add Song
+![Add Song](screenshots/addsong.png)
 
 6. Add Artist
+![Add Artist](screenshots/addartist.png)
 
 7. Song Detail
 ![Song Detail](screenshots/songdetail.png)
 
 8.Artist Details
+![Artist Details](screenshots/artistdetail.png)
+
+
+# Note
+
+In case if youtube embed is showing "Video not available" try accessing the application via 
+
+```bash
+  http://localhost:8000/
+```
+  Reference : https://stackoverflow.com/a/56419165/12655561

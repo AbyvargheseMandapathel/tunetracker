@@ -57,6 +57,6 @@ python manage.py runserver
 6. Add Artist
 
 7. Song Detail
-![Song Detail](screenshots\songdetail.png)
+![Song Detail](screenshots/songdetail.png)
 
 8.Artist Details
